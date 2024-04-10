@@ -1,6 +1,7 @@
 require("cryptoNet")
 
 card_table = {}
+dns_table = {}
 
 function split (inputstr, sep)
     if sep == nil then
@@ -29,10 +30,12 @@ function save(table,name)
 
 function loadTables()
     card_table = load("card.tbl")
+    dns_table = load("dns.tbl")
 end
 
 function saveTables()
     save(card_table, "card.tbl")
+    save(dns_table, "dns.tbl")
 end
 
 function onEvent(event)
@@ -69,6 +72,10 @@ function onEvent(event)
             }
             card_table[id] = data
             send(socket, "card_id:"..id)
+        elseif split(message, ":")[1] == "add_dns" then
+            local storage_id = split(message, ":")[2]
+            local name = split(message, ":")[3]
+            dns_table[name] = storage_id
         elseif split(message, ":")[1] == "add_bal" then
             local id = split(message, ":")[2]
             local change = split(message, ":")[3]

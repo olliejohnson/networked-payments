@@ -1,6 +1,6 @@
 urls = {
-    {"client", "https://raw.githubusercontent.com/olliejohnson/networked-payments/main/client/client.lua"},
-    {"cryptoNet", "https://raw.githubusercontent.com/olliejohnson/networked-payments/main/client/cryptoNet.lua"}
+    {"client.lua", "https://raw.githubusercontent.com/olliejohnson/networked-payments/main/client/client.lua"},
+    {"cryptoNet.lua", "https://raw.githubusercontent.com/olliejohnson/networked-payments/main/client/cryptoNet.lua"}
 }
 
 function download(name, url)

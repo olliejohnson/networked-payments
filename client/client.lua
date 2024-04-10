@@ -62,7 +62,7 @@ function menu(socket)
     if data_t ~= nil then
         print("User: "..data_t.username.."\nBalance: "..data_t.balance.."\n")
     end
-    print("1. Add Card\n2. Get Data\n3. Save Server Tables\n4. Load Server Tables (WARNING: Will delete unsaved data)\n5. Erase Server Tables (WARNING: Will erase a card data)\n6. Add Balance\n7. Remove Balance")
+    print("1. Add Card\n2. Get Data\n3. Save Server Tables\n4. Load Server Tables (WARNING: Will delete unsaved data)\n5. Erase Server Tables (WARNING: Will erase a card data)\n6. Add Balance\n7. Remove Balance\n8. Set Address")
     local option = read()
     if option == "1" then
         write("Username: ")
@@ -87,6 +87,13 @@ function menu(socket)
         write("Change: ")
         local change = read()
         chargeBalance(socket, change)
+    elseif option == "8" then
+        write("Address: ")
+        local address = read()
+        write("Name: ")
+        local name = read()
+        setAddress(address)
+        send(socket, "add_dns:"..address..":"..name)
     end
 end
 
