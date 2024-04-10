@@ -119,7 +119,7 @@ end
 
 function onStart()
     print("Connecting...")
-    local socket = connect("central.netfs")
+    local socket = connect("central.netfs", 5, 1, nil, "right", "certAuth.key", false)
     print("Connected.")
     enterDetails(socket)
 end
