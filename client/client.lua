@@ -49,11 +49,13 @@ end
 
 function addBalance(socket, change)
     send(socket, "add_bal:"..getCardID()..":"..change)
+    send(socket, "card_id:"..getCardID())
     send(socket, "chk")
 end
 
 function chargeBalance(socket, change)
     send(socket, "rm_bal:"..getCardID()..":"..change)
+    send(socket, "card_id:"..getCardID())
     send(socket, "chk")
 end
 
@@ -93,7 +95,8 @@ function menu(socket)
         write("Name: ")
         local name = read()
         setAddress(address)
-        send(socket, "add_dns:"..address..":"..name)
+        send(socket, "add_dns|"..address.."|"..name)
+        send(socket, "chk")
     end
 end
 
@@ -148,6 +151,9 @@ function onEvent(event)
     elseif msgType == "encrypted_message" then
         print (event[2])
         if event[2] == "accept_" then
+            if data_t == nil then
+                send(event[3], "card_id:"..getCardID())
+            end
             menu(event[3])
         elseif event[2] == "deny_" then
         elseif split(event[2], ":")[1] == "card_data" then

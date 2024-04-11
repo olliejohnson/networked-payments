@@ -56,6 +56,7 @@ function onEvent(event)
             loadTables()
         elseif message == "clr_tbl" then
             card_table = {}
+            dns_table = {}
             saveTables()
         elseif split(message, ":")[1] == "add_card" then
             local m_split = split(message, ":")
@@ -72,9 +73,9 @@ function onEvent(event)
             }
             card_table[id] = data
             send(socket, "card_id:"..id)
-        elseif split(message, ":")[1] == "add_dns" then
-            local storage_id = split(message, ":")[2]
-            local name = split(message, ":")[3]
+        elseif split(message, "|")[1] == "add_dns" then
+            local storage_id = split(message, "|")[2]
+            local name = split(message, "|")[3]
             dns_table[name] = storage_id
         elseif split(message, ":")[1] == "add_bal" then
             local id = split(message, ":")[2]
