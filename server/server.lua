@@ -18,14 +18,22 @@ function save(table,name)
     local file = fs.open(name,"w")
     file.write(textutils.serialize(table))
     file.close()
-    end
+end
      
-    function load(name)
+function load(name)
     local file = fs.open(name,"r")
     local data = file.readAll()
     file.close()
     return textutils.unserialize(data)
+end
+
+function getId(username)
+    for k, v in pairs(card_table) do
+        if v.username == username then
+            return k
+        end
     end
+end
     
 
 function loadTables()
@@ -80,11 +88,25 @@ function onEvent(event)
         elseif split(message, ":")[1] == "add_bal" then
             local id = split(message, ":")[2]
             local change = split(message, ":")[3]
-            card_table[id].balance = card_table[id].balance + tonumber(change)
+            if tonumber(change) >= 0 then
+                card_table[id].balance = card_table[id].balance + tonumber(change)
+            end
         elseif split(message, ":")[1] == "rm_bal" then
             local id = split(message, ":")[2]
             local change = split(message, ":")[3]
-            card_table[id].balance = card_table[id].balance - tonumber(change)
+            if card_table[id].balance >= tonumber(change) and tonumber(change) >= 0 then
+                card_table[id].balance = card_table[id].balance - tonumber(change)
+            end
+        elseif split(message, ":")[1] == "transfer" then
+            local id = split(message, ":")[2]
+            local username = split(message, ":")[3]
+            local change = split(message, ":")[4]
+            if card_table[id].balance >= tonumber(change) and tonumber(change) >= 0 then
+                if getId(username) ~= nil then
+                    card_table[id].balance = card_table[id].balance - tonumber(change)
+                    card_table[getId(username)].balance = card_table[getId(username)].balance + tonumber(change)
+                end
+            end
         else
             if socket.username ~= nil then
                 send(socket, "accept_")

@@ -47,15 +47,21 @@ function checkBalance(socket, requiredBalance)
     end
 end
 
-function addBalance(socket, change)
-    send(socket, "add_bal:"..getCardID()..":"..change)
-    send(socket, "card_id:"..getCardID())
+function addBalance(socket)
+    write("Change: ")
+    local change = read()
+    local cardId = getCardID()
+    send(socket, "add_bal:"..cardId..":"..change)
+    send(socket, "card_id:"..cardId)
     send(socket, "chk")
 end
 
-function chargeBalance(socket, change)
-    send(socket, "rm_bal:"..getCardID()..":"..change)
-    send(socket, "card_id:"..getCardID())
+function chargeBalance(socket)
+    write("Change: ")
+    local change = read()
+    local cardId = getCardID()
+    send(socket, "rm_bal:"..cardId..":"..change)
+    send(socket, "card_id:"..cardId)
     send(socket, "chk")
 end
 
@@ -64,7 +70,7 @@ function menu(socket)
     if data_t ~= nil then
         print("User: "..data_t.username.."\nBalance: "..data_t.balance.."\n")
     end
-    print("1. Add Card\n2. Get Data\n3. Save Server Tables\n4. Load Server Tables (WARNING: Will delete unsaved data)\n5. Erase Server Tables (WARNING: Will erase a card data)\n6. Add Balance\n7. Remove Balance\n8. Set Address")
+    print("1. Add Card\n2. Get Data\n3. Save Server Tables\n4. Load Server Tables (WARNING: Will delete unsaved data)\n5. Erase Server Tables (WARNING: Will erase a card data)\n6. Add Balance\n7. Remove Balance\n8. Send Money")
     local option = read()
     if option == "1" then
         write("Username: ")
@@ -72,6 +78,7 @@ function menu(socket)
         return send(socket, "add_card:"..username)
     elseif option == "2" then
         send(socket, "card_id:"..getCardID())
+        send(socket, "chk")
     elseif option == "3" then
         send(socket, "save_tbl")
         send(socket, "chk")
@@ -82,20 +89,15 @@ function menu(socket)
         send(socket, "clr_tbl")
         send(socket, "chk")
     elseif option == "6" then
-        write("Change: ")
-        local change = read()
-        addBalance(socket, change)
+        addBalance(socket)
     elseif option == "7" then
-        write("Change: ")
-        local change = read()
-        chargeBalance(socket, change)
+        chargeBalance(socket)
     elseif option == "8" then
-        write("Address: ")
-        local address = read()
-        write("Name: ")
-        local name = read()
-        setAddress(address)
-        send(socket, "add_dns|"..address.."|"..name)
+        write("Sender Username: ")
+        local username = read()
+        write("Amount: ")
+        local change = read()
+        send(socket, "transfer:"..getCardID()..":"..username..":"..change)
         send(socket, "chk")
     end
 end
@@ -149,7 +151,6 @@ function onEvent(event)
         local socket = event[3]
         enterDetails(socket)
     elseif msgType == "encrypted_message" then
-        print (event[2])
         if event[2] == "accept_" then
             if data_t == nil then
                 send(event[3], "card_id:"..getCardID())
@@ -161,7 +162,6 @@ function onEvent(event)
             local data_tbl = textutils.unserialise(data)
             data_t = data_tbl
             writeCardName(data_tbl.username)
-            send(event[3], "chk")
         elseif split(event[2], ":")[1] == "card_id" then
             writeCardID(split(event[2], ":")[2])
             send(event[3], "card_id:"..split(event[2], ":")[2])
