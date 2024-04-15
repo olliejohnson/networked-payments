@@ -9,6 +9,7 @@
     <toc-element topic="Mail-Network.md">
         <toc-element topic="Setup-MN.md"/>
         <toc-element topic="Installing-MN.md"/>
+        <toc-element topic="Using-MN.md"/>
     </toc-element>
     <toc-element topic="Default-topic.md">
         <toc-element topic="Installing.md"/>

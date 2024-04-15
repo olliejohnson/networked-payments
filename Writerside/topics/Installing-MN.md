@@ -7,7 +7,7 @@ You first need to place down a computer with a wireless or ender modem on the si
 <procedure title="Installing Server">
 <step>
 Run
-<code-block>wget https://github.com/olliejohnson/mail-server/main/server/install.lua install.lua</code-block>
+<code-block>wget https://github.com/olliejohnson/mail-network/main/server/install.lua install.lua</code-block>
 </step>
 <step>
 Run <code>install</code>
@@ -23,7 +23,7 @@ You first need to place down a computer with a wireless or ender modem on the si
 <procedure title="Installing Client">
 <step>
 Run
-<code-block>wget https://github.com/olliejohnson/mail-server/main/client/install.lua install.lua</code-block>
+<code-block>wget https://github.com/olliejohnson/mail-network/main/client/install.lua install.lua</code-block>
 </step>
 <step>
 Run <code>install</code>
@@ -31,3 +31,19 @@ Run <code>install</code>
 </procedure>
 
 You can then start the server with the ` client ` command
+
+## Card Writer
+
+You first need to place down a computer with a ender modem on the side and a disk drive connected then you can install the program.
+
+<procedure title="Installing Card Writer">
+<step>
+Run
+<code-block>wget https://github.com/olliejohnson/mail-network/main/card-writer/install.lua</code-block>
+</step>
+<step>
+Run <code>install</code>
+</step>
+</procedure>
+
+You can then start the card writer with the ` writer ` command
